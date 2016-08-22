@@ -28,5 +28,11 @@ list
 ```
 현재 투자목록을 가져옵니다.
 
+```
+deal [채권번호]
+```
+채권번호에 해당하는 세부 내용을 가져옵니다.
+
+
 ##Author
 Harvey Kim(vaporize93@gmail.com)
