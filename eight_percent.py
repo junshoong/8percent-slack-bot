@@ -1,9 +1,11 @@
 from urllib.request import urlopen
 from bs4 import BeautifulSoup
 
-soup = BeautifulSoup(urlopen('http://8percent.kr/investments').read(),'html.parser')
+INVESTMENTS = 'https://8percent.kr/investments/'
+DEALS = 'https://8percent.kr/investment/deals/'
 
 def investments():
+    soup = BeautifulSoup(urlopen(INVESTMENTS).read(),'html.parser')
     titles = soup.find_all('div', {'class': "TitleText"})
     grades = soup.find_all('div', {'class': "GradeBox"})
     interests = soup.find_all('div', {'class': "InterestText"})
@@ -25,3 +27,20 @@ def investments():
         deallist.append(deal.copy())
 
     return deallist
+
+def deal_detail(number):
+    deal_url = DEALS+str(number)
+    soup = BeautifulSoup(urlopen(deal_url).read(),'html.parser')
+
+    deal = {}
+    if soup:
+        deal['title'] = soup.find('div', {'id': "Text_201"}).p.string
+        deal['detail'] = soup.find('div', {'id': "Text_147"}).p.string
+        deal['grade'] = soup.find('div', {'id': "Text_226"}).p.string
+        deal['interest'] = soup.find('div', {'id': "Text_220"}).p.string
+        deal['duration'] = soup.find('div', {'id': "Text_223"}).p.string
+        deal['amount'] = soup.find('div', {'id': "Text_228"}).p.string
+        deal['progress'] = soup.find('div', {'id': "DealProgressText"}).p.string
+        deal['refund_method'] = soup.find('div', {'id': "Text_237"}).p.string
+
+    return deal
